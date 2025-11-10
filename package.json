@@ -1,15 +1,16 @@
 {
   "name": "@umituz/react-native-notifications",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Offline-first local notifications system for React Native apps using expo-notifications",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "clean": "rm -rf lib",
     "prebuild": "npm run clean",
+    "prepublishOnly": "npm run build",
     "version:patch": "npm version patch -m 'chore: release v%s'",
     "version:minor": "npm version minor -m 'chore: release v%s'",
     "version:major": "npm version major -m 'chore: release v%s'"
@@ -23,37 +24,49 @@
     "reminders",
     "push-notifications"
   ],
-  "author": "\u00dcmit UZ <umit@umituz.com>",
+  "author": "Ümit UZ <umit@umituz.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/umituz/react-native-notifications"
   },
   "peerDependencies": {
-    "@react-native-async-storage/async-storage": "^1.21.0",
-    "expo-notifications": "~0.28.0",
+    "@react-native-async-storage/async-storage": "^2.2.0",
+    "@umituz/react-native-design-system": "*",
+    "@umituz/react-native-theme": "*",
     "expo-device": "~6.0.2",
+    "expo-notifications": "~0.28.0",
     "react": ">=18.2.0",
     "react-native": ">=0.74.0",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
-    "@react-native-async-storage/async-storage": "^1.24.0",
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@types/react": "^18.2.45",
     "@types/react-native": "^0.73.0",
-    "expo-notifications": "~0.28.0",
+    "@umituz/react-native-design-system": "^1.5.28",
+    "@umituz/react-native-theme": "latest",
     "expo-device": "~6.0.2",
+    "expo-notifications": "~0.28.0",
     "react": "^18.2.0",
     "react-native": "^0.74.0",
     "typescript": "^5.3.3",
-    "zustand": "^5.0.2"
+    "zustand": "^5.0.8"
   },
   "publishConfig": {
     "access": "public"
   },
   "files": [
+    "lib",
     "src",
     "README.md",
     "LICENSE"
-  ]
+  ],
+  "dependencies": {
+    "@react-native-community/datetimepicker": "^8.5.0",
+    "@react-navigation/native": "^7.1.19",
+    "@umituz/react-native-icon": "^1.0.1",
+    "expo-linear-gradient": "^15.0.7",
+    "react-native-safe-area-context": "^5.6.2"
+  }
 }

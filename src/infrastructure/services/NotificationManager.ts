@@ -92,12 +92,13 @@ export class NotificationManager {
         return false;
       }
 
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      const permissionsResponse = await Notifications.getPermissionsAsync();
+      const existingStatus = (permissionsResponse as any).status || ((permissionsResponse as any).granted ? 'granted' : 'denied');
       let finalStatus = existingStatus;
 
       if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
+        const requestResponse = await Notifications.requestPermissionsAsync();
+        finalStatus = (requestResponse as any).status || ((requestResponse as any).granted ? 'granted' : 'denied');
       }
 
       if (Platform.OS === 'android') {
@@ -117,8 +118,8 @@ export class NotificationManager {
   async hasPermissions(): Promise<boolean> {
     try {
       if (!Device.isDevice) return false;
-      const { status } = await Notifications.getPermissionsAsync();
-      return status === 'granted';
+      const permissionsResponse = await Notifications.getPermissionsAsync();
+      return (permissionsResponse as any).status === 'granted' || (permissionsResponse as any).granted === true;
     } catch (error) {
       console.error('[NotificationManager] Permission check failed:', error);
       return false;

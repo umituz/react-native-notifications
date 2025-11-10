@@ -9,13 +9,20 @@ import React, { useMemo } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { AtomicIcon, AtomicSwitch, AtomicCard, AtomicText, ScreenLayout, STATIC_TOKENS } from '@umituz/react-native-design-system';
 
-import { useTheme } from '@umituz/react-native-theme';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
 import { useNotificationSettings } from '../../infrastructure/hooks/useNotificationSettings';
 import type { DesignTokens } from '@umituz/react-native-design-system';
 
+// Note: Translation function should be provided by the app using this package
+// This is a placeholder - apps should wrap this component with their i18n provider
+const t = (key: string): string => {
+  // Return key as fallback - apps should provide translation function
+  return key;
+};
+
 export const NotificationsScreen: React.FC = () => {
   
-  const { tokens } = useTheme();
+  const tokens = useAppDesignTokens();
   const styles = useMemo(() => getStyles(tokens), [tokens]);
   const { notificationsEnabled, setNotificationsEnabled, isLoading } = useNotificationSettings();
 

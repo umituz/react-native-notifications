@@ -52,6 +52,7 @@
   ],
   "exclude": [
     "node_modules",
+    "node_modules/@umituz",
     "lib",
     "**/*.test.ts",
     "**/*.test.tsx",
