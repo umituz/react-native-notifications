@@ -9,7 +9,7 @@ import React, { useMemo } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { AtomicIcon, AtomicSwitch, AtomicCard, AtomicText, ScreenLayout, STATIC_TOKENS } from '@umituz/react-native-design-system';
 
-import { useAppDesignTokens } from '@umituz/react-native-theme';
+import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import { useNotificationSettings } from '../../infrastructure/hooks/useNotificationSettings';
 import type { DesignTokens } from '@umituz/react-native-design-system';
 
