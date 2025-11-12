@@ -41,7 +41,7 @@
     "zustand": "^5.0.2"
   },
   "devDependencies": {
-    "@react-native-async-storage/async-storage": "^2.2.0",
+    "@react-native-async-storage/async-storage": "^1.21.0",
     "@types/react": "^18.2.45",
     "@types/react-native": "^0.73.0",
     "@umituz/react-native-design-system": "^1.5.28",
