@@ -46,6 +46,7 @@
     "@types/react-native": "^0.73.0",
     "@umituz/react-native-design-system": "^1.5.28",
     "@umituz/react-native-design-system-theme": "latest",
+    "@umituz/react-native-design-system-atoms": "*",
     "expo-device": "~6.0.2",
     "expo-notifications": "~0.28.0",
     "react": "^18.2.0",
