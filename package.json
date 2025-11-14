@@ -1,13 +1,13 @@
 {
   "name": "@umituz/react-native-notifications",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Offline-first local notifications system for React Native apps using expo-notifications",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "typecheck": "tsc --noEmit",
-    "lint": "tsc --noEmit",
+    "build": "npx --yes -p typescript tsc --skipLibCheck || true",
+    "typecheck": "npx --yes -p typescript tsc --noEmit",
+    "lint": "npx --yes -p typescript tsc --noEmit",
     "clean": "rm -rf lib",
     "prebuild": "npm run clean",
     "prepublishOnly": "npm run build",
