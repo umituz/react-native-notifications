@@ -32,3 +32,10 @@ export { NotificationManager } from './infrastructure/services/NotificationManag
 
 // Hooks
 export { useNotificationSettings } from './infrastructure/hooks/useNotificationSettings';
+
+// ============================================================================
+// PRESENTATION LAYER EXPORTS
+// ============================================================================
+
+// Screens
+export { NotificationsScreen } from './presentation/screens/NotificationsScreen';
