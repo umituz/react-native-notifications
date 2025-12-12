@@ -28,7 +28,8 @@ export const useNotificationsStore = create<NotificationsStore>((set) => ({
  * Hook for accessing notifications state
  */
 export const useNotifications = () => {
-  const { hasPermissions, isInitialized, setPermissions, setInitialized } = useNotificationsStore();
+  const store = useNotificationsStore();
+  const { hasPermissions, isInitialized, setPermissions, setInitialized } = store;
 
   return {
     hasPermissions,

@@ -1,54 +1,67 @@
 /**
- * Notifications Screen - {{APP_NAME}}
+ * Notifications Screen - Dynamic and Reusable
  *
- * Simple notification toggle - enable or disable reminders
- * Theme: {{THEME_ID}} ({{CATEGORY}} category)
+ * A clean notification settings screen that accepts all text and configuration
+ * as props to make it completely reusable across different applications.
  */
 
 import React, { useMemo } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { AtomicIcon, AtomicSwitch, AtomicCard, AtomicText, ScreenLayout, STATIC_TOKENS } from '@umituz/react-native-design-system';
-
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import { useNotificationSettings } from '../../infrastructure/hooks/useNotificationSettings';
 import type { DesignTokens } from '@umituz/react-native-design-system';
 
-// Note: Translation function should be provided by the app using this package
-// This is a placeholder - apps should wrap this component with their i18n provider
-const t = (key: string): string => {
-  // Return key as fallback - apps should provide translation function
-  return key;
-};
+export interface NotificationsScreenProps {
+  translations: {
+    title: string;
+    description: string;
+    loadingText?: string;
+  };
+  iconName?: string;
+  iconColor?: string;
+  testID?: string;
+}
 
-export const NotificationsScreen: React.FC = () => {
-  
+export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
+  translations,
+  iconName = 'Bell',
+  iconColor = 'primary',
+  testID = 'notifications-screen',
+}) => {
   const tokens = useAppDesignTokens();
   const styles = useMemo(() => getStyles(tokens), [tokens]);
   const { notificationsEnabled, setNotificationsEnabled, isLoading } = useNotificationSettings();
 
   if (isLoading) {
     return (
-      <ScreenLayout testID="notifications-screen">
+      <ScreenLayout testID={testID}>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={tokens.colors.primary} />
+          <AtomicText 
+            type="bodyMedium" 
+            style={{ color: tokens.colors.textSecondary, marginTop: STATIC_TOKENS.spacing.md }}
+          >
+            {translations.loadingText || 'Loading...'}
+          </AtomicText>
         </View>
       </ScreenLayout>
     );
   }
 
   return (
-    <ScreenLayout testID="notifications-screen" hideScrollIndicator>
+    <ScreenLayout testID={testID} hideScrollIndicator>
       <AtomicCard style={styles.card}>
         <View style={styles.settingItem}>
           <View style={styles.iconContainer}>
-            <AtomicIcon name="Bell" size="lg" color="primary" />
+            <AtomicIcon name={iconName} size="lg" color={iconColor} />
           </View>
           <View style={styles.textContainer}>
             <AtomicText type="bodyLarge" style={{ color: tokens.colors.textPrimary }}>
-              {t('settings.notifications.enableNotifications')}
+              {translations.title}
             </AtomicText>
             <AtomicText type="bodySmall" style={{ color: tokens.colors.textSecondary, marginTop: STATIC_TOKENS.spacing.xs }}>
-              {t('settings.notifications.description')}
+              {translations.description}
             </AtomicText>
           </View>
           <AtomicSwitch

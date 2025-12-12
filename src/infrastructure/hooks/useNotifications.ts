@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useNotificationsState } from './state/useNotificationsState';
 import { useNotificationActions } from './actions/useNotificationActions';
+import { useNotificationManagementActions } from './actions/useNotificationManagementActions';
 import { useNotificationRefresh } from './utils/useNotificationRefresh';
 import type { UseNotificationsOptions } from './types';
+import { devLog } from '../utils/dev';
 
 export * from './types';
 
@@ -31,10 +33,25 @@ export function useNotifications(userId: string, options: UseNotificationsOption
   };
 
   const actions = useNotificationActions(state, setters);
+  const managementActions = useNotificationManagementActions(state, setters);
   const refresh = useNotificationRefresh(pageSize, setters);
 
-  const loadMoreNotifications = () => 
-    refresh.loadMoreNotifications(state.notifications.length, state.hasMore, state.loading);
+  const loadMoreNotifications = useCallback(() => 
+    refresh.loadMoreNotifications(state.notifications.length, state.hasMore, state.loading),
+    [refresh, state.notifications.length, state.hasMore, state.loading]
+  );
+
+  const cleanup = useCallback(() => {
+    setNotifications([]);
+    setChannels([]);
+    setUnreadCount(0);
+    setPreferences(null);
+    setError(null);
+    setLoading(false);
+    setHasMore(true);
+
+    devLog('[useNotifications] Cleaned up notification state');
+  }, [setNotifications, setChannels, setUnreadCount, setPreferences, setError, setLoading, setHasMore]);
 
   // Load initial data
   useEffect(() => {
@@ -43,14 +60,11 @@ export function useNotifications(userId: string, options: UseNotificationsOption
       refresh.refreshChannels();
       refresh.refreshPreferences();
     } else {
-      setNotifications([]);
-      setChannels([]);
-      setUnreadCount(0);
-      setPreferences(null);
+      cleanup();
     }
-  }, [userId]);
+  }, [userId, cleanup]);
 
-  // Auto-refresh setup
+  // Auto-refresh setup with proper cleanup
   useEffect(() => {
     if (!autoRefresh || !userId) return;
 
@@ -58,13 +72,25 @@ export function useNotifications(userId: string, options: UseNotificationsOption
       refresh.refreshNotifications();
     }, refreshInterval);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      devLog('[useNotifications] Auto-refresh interval cleared');
+    };
   }, [autoRefresh, userId, refreshInterval]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      devLog('[useNotifications] Component unmounted, cleaning up');
+    };
+  }, []);
 
   return {
     ...state,
     ...actions,
+    ...managementActions,
     ...refresh,
     loadMoreNotifications,
+    cleanup,
   };
 }

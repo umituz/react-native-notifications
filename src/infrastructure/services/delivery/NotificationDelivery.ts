@@ -1,21 +1,13 @@
 import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { Notification } from '../types';
+import { devLog, devError } from '../../utils/dev';
 
-/**
- * NotificationDelivery - Offline Local Notification Delivery
- *
- * Uses expo-notifications for local push notifications only.
- * All data stored in AsyncStorage (offline-capable).
- *
- * NO backend, NO email/SMS - pure offline local notifications.
- */
 export class NotificationDelivery {
   private static STORAGE_KEY = '@notifications:delivered';
 
   async deliver(notification: Notification): Promise<void> {
     try {
-      // Schedule local notification using expo-notifications
       await Notifications.scheduleNotificationAsync({
         content: {
           title: notification.title,
@@ -24,14 +16,17 @@ export class NotificationDelivery {
         },
         trigger: notification.scheduled_for
           ? { date: new Date(notification.scheduled_for) }
-          : null, // null = immediate delivery
+          : null,
       });
 
-      // Update status in AsyncStorage (offline storage)
       await this.updateStatus(notification.id, 'delivered');
+
+      devLog('[NotificationDelivery] Notification delivered:', notification.id);
     } catch (error) {
-      // Silent failure - update status to failed
       await this.updateStatus(notification.id, 'failed');
+      
+      devError('[NotificationDelivery] Delivery failed:', notification.id, error);
+      throw error;
     }
   }
 
@@ -49,8 +44,10 @@ export class NotificationDelivery {
         NotificationDelivery.STORAGE_KEY,
         JSON.stringify(delivered)
       );
+
+      devLog('[NotificationDelivery] Status updated:', notificationId, status);
     } catch (error) {
-      // Silent failure
+      devError('[NotificationDelivery] Status update failed:', notificationId, error);
     }
   }
 
@@ -59,7 +56,28 @@ export class NotificationDelivery {
       const data = await AsyncStorage.getItem(NotificationDelivery.STORAGE_KEY);
       return data ? JSON.parse(data) : {};
     } catch (error) {
+      devError('[NotificationDelivery] Failed to get delivered notifications:', error);
       return {};
+    }
+  }
+
+  async getDeliveryStatus(notificationId: string): Promise<string | null> {
+    try {
+      const delivered = await this.getDelivered();
+      return delivered[notificationId]?.status || null;
+    } catch (error) {
+      devError('[NotificationDelivery] Failed to get delivery status:', notificationId, error);
+      return null;
+    }
+  }
+
+  async clearDeliveryHistory(): Promise<void> {
+    try {
+      await AsyncStorage.removeItem(NotificationDelivery.STORAGE_KEY);
+      
+      devLog('[NotificationDelivery] Delivery history cleared');
+    } catch (error) {
+      devError('[NotificationDelivery] Failed to clear delivery history:', error);
     }
   }
 }
