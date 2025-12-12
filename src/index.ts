@@ -38,4 +38,9 @@ export { useNotificationSettings } from './infrastructure/hooks/useNotificationS
 // ============================================================================
 
 // Screens
+// Screens
 export { NotificationsScreen } from './presentation/screens/NotificationsScreen';
+
+// Components
+export { NotificationsSection } from './presentation/components/NotificationsSection';
+export type { NotificationsSectionProps, NotificationsSectionConfig } from './presentation/components/NotificationsSection';

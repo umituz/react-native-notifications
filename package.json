@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-notifications",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Offline-first local notifications system for React Native apps using expo-notifications",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -41,12 +41,14 @@
     "zustand": "^5.0.2"
   },
   "devDependencies": {
+    "@expo/vector-icons": "^15.0.3",
     "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-navigation/native": "^7.1.25",
     "@types/react": "^18.2.45",
     "@types/react-native": "^0.73.0",
     "@umituz/react-native-design-system": "^1.5.28",
-    "@umituz/react-native-design-system-theme": "latest",
     "@umituz/react-native-design-system-atoms": "*",
+    "@umituz/react-native-design-system-theme": "^1.8.0",
     "expo-device": "~6.0.2",
     "expo-notifications": "~0.28.0",
     "react": "^18.2.0",
@@ -65,7 +67,6 @@
   ],
   "dependencies": {
     "@react-native-community/datetimepicker": "^8.5.0",
-    "@react-navigation/native": "^7.1.19",
     "@umituz/react-native-design-system-atoms": "*",
     "expo-linear-gradient": "^15.0.7",
     "react-native-safe-area-context": "^5.6.2"
