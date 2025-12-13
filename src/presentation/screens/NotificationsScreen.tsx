@@ -25,7 +25,7 @@ export interface NotificationsScreenProps {
 
 export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
   translations,
-  iconName = 'Bell',
+  iconName = 'bell',
   iconColor = 'primary',
   testID = 'notifications-screen',
 }) => {
