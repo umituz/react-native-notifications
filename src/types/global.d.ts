@@ -161,15 +161,18 @@ declare module 'react-native' {
   }
   export const StyleSheet: StyleSheetStatic;
 
-  export interface ViewStatic {
-    new (props: any): any;
-  }
-  export const View: ViewStatic;
+  export type StyleProp<T> = T | T[] | null | undefined;
+  export interface ViewStyle { [key: string]: any; }
+  export interface TextStyle { [key: string]: any; }
 
-  export interface ActivityIndicatorStatic {
-    new (props: any): any;
-  }
-  export const ActivityIndicator: ActivityIndicatorStatic;
+  export const View: React.FC<any>;
+  export const Text: React.FC<any>;
+  export const TouchableOpacity: React.FC<any>;
+  export const TextInput: React.FC<any>;
+  export const ScrollView: React.FC<any>;
+  export const FlatList: React.FC<any>;
+  export const Switch: React.FC<any>;
+  export const ActivityIndicator: React.FC<any>;
 }
 
 declare module 'zustand' {
