@@ -74,6 +74,7 @@ export {
 export { useNotificationSettings } from './infrastructure/hooks/useNotificationSettings';
 export { useReminderActions } from './infrastructure/hooks/useReminderActions';
 export { useQuietHoursActions } from './infrastructure/hooks/useQuietHoursActions';
+export { useNotificationSettingsUI } from './presentation/hooks/useNotificationSettingsUI';
 
 // ============================================================================
 // SCREENS
@@ -115,3 +116,6 @@ export type { FormButtonProps } from './presentation/components/FormButton';
 
 export { QuietHoursCard } from './presentation/components/QuietHoursCard';
 export type { QuietHoursCardProps } from './presentation/components/QuietHoursCard';
+
+export { SettingRow } from './presentation/components/SettingRow';
+export type { SettingRowProps } from './presentation/components/SettingRow';
