@@ -158,7 +158,7 @@ const SettingRow: React.FC<SettingRowProps> = ({ iconName, title, description, v
         <AtomicIcon name={iconName} size="md" color="primary" />
       </View>
       <View style={styles.textContainer}>
-        <AtomicText type="bodyLarge">{title}</AtomicText>
+        <AtomicText type="bodyLarge" style={{ color: tokens.colors.textPrimary }}>{title}</AtomicText>
         <AtomicText type="bodySmall" style={styles.description}>{description}</AtomicText>
       </View>
       <Switch
