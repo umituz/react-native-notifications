@@ -115,8 +115,8 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
                   <AtomicIcon name="time" size="md" color="primary" />
                 </View>
                 <View style={styles.textContainer}>
-                  <AtomicText type="bodyLarge">{translations.remindersTitle}</AtomicText>
-                  <AtomicText type="bodySmall" style={styles.description}>{translations.remindersDescription}</AtomicText>
+                  <AtomicText type="bodyLarge" style={{ color: tokens.colors.textPrimary }}>{translations.remindersTitle}</AtomicText>
+                  <AtomicText type="bodySmall" style={[styles.description, { color: tokens.colors.textSecondary }]}>{translations.remindersDescription}</AtomicText>
                 </View>
                 {reminders.length > 0 && (
                   <View style={styles.badge}>
