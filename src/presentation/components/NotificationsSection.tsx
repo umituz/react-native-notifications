@@ -67,31 +67,37 @@ export const NotificationsSection: React.FC<NotificationsSectionProps> = ({
     <View style={[styles.container, containerStyle]}>
       <AtomicText type="bodyLarge" style={styles.sectionTitle}>General</AtomicText>
 
-      <TouchableOpacity
-        style={styles.itemContainer}
-        onPress={showToggle ? undefined : handlePress}
-        disabled={showToggle}
-        activeOpacity={0.7}
-      >
-        <View style={styles.iconContainer}>
-          <AtomicIcon name="notifications" size="md" color="primary" />
-        </View>
-        <View style={styles.textContainer}>
-          <AtomicText type="bodyLarge">{title}</AtomicText>
-          {!showToggle && <AtomicText type="bodySmall" style={styles.description}>{description}</AtomicText>}
-        </View>
-
-        {showToggle ? (
+      {showToggle ? (
+        <View style={styles.itemContainer}>
+          <View style={styles.iconContainer}>
+            <AtomicIcon name="notifications" size="md" color="primary" />
+          </View>
+          <View style={styles.textContainer}>
+            <AtomicText type="bodyLarge">{title}</AtomicText>
+          </View>
           <Switch
             value={enabled}
             onValueChange={handleToggle}
             trackColor={{ false: tokens.colors.surfaceSecondary, true: tokens.colors.primary }}
             thumbColor={tokens.colors.surface}
           />
-        ) : (
+        </View>
+      ) : (
+        <TouchableOpacity
+          style={styles.itemContainer}
+          onPress={handlePress}
+          activeOpacity={0.7}
+        >
+          <View style={styles.iconContainer}>
+            <AtomicIcon name="notifications" size="md" color="primary" />
+          </View>
+          <View style={styles.textContainer}>
+            <AtomicText type="bodyLarge">{title}</AtomicText>
+            <AtomicText type="bodySmall" style={styles.description}>{description}</AtomicText>
+          </View>
           <AtomicIcon name="chevron-forward" size="md" color="secondary" />
-        )}
-      </TouchableOpacity>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
