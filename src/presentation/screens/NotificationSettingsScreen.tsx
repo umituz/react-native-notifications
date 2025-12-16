@@ -34,11 +34,11 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
   const preferences = useNotificationPreferences();
   const quietHours = useQuietHours();
   const reminders = useReminders();
-  const { loadPreferences, updatePreferences, updateQuietHours, isLoading } = useRemindersStore();
+  const { initialize, updatePreferences, updateQuietHours, isLoading } = useRemindersStore();
 
   useEffect(() => {
-    loadPreferences();
-  }, [loadPreferences]);
+    initialize();
+  }, [initialize]);
 
   const handleMasterToggle = useCallback(async (value: boolean) => {
     if (value) {

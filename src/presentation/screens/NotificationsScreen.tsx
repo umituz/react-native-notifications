@@ -11,7 +11,7 @@ import { AtomicIcon, AtomicCard, AtomicText, ScreenLayout, STATIC_TOKENS } from 
 import { Switch } from 'react-native';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import { useNotificationSettings } from '../../infrastructure/hooks/useNotificationSettings';
-import type { DesignTokens, IconColor } from '@umituz/react-native-design-system';
+import type { DesignTokens } from '@umituz/react-native-design-system';
 
 export interface NotificationsScreenProps {
   translations: {
@@ -20,7 +20,7 @@ export interface NotificationsScreenProps {
     loadingText?: string;
   };
   iconName?: string;
-  iconColor?: IconColor;
+  iconColor?: string;
   testID?: string;
 }
 
@@ -39,8 +39,8 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
       <ScreenLayout testID={testID}>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={tokens.colors.primary} />
-          <AtomicText 
-            type="bodyMedium" 
+          <AtomicText
+            type="bodyMedium"
             style={{ color: tokens.colors.textSecondary, marginTop: STATIC_TOKENS.spacing.md }}
           >
             {translations.loadingText || 'Loading...'}

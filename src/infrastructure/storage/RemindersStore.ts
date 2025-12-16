@@ -25,6 +25,7 @@ interface RemindersState {
 }
 
 interface RemindersActions {
+  initialize: () => Promise<void>;
   loadReminders: () => Promise<void>;
   addReminder: (reminder: Reminder) => Promise<void>;
   updateReminder: (id: string, updates: Partial<Reminder>) => Promise<void>;
@@ -44,8 +45,8 @@ type RemindersStore = RemindersState & RemindersActions;
 
 const DEFAULT_PREFERENCES: NotificationPreferences = {
   enabled: false,
-  sound: false,
-  vibration: false,
+  sound: true,
+  vibration: true,
   quietHours: {
     enabled: false,
     startHour: 22,
@@ -65,13 +66,34 @@ export const useRemindersStore = create<RemindersStore>((set, get) => ({
   isLoading: true,
   isInitialized: false,
 
+  initialize: async () => {
+    try {
+      const [remindersData, preferencesData] = await Promise.all([
+        AsyncStorage.getItem(STORAGE_KEYS.REMINDERS),
+        AsyncStorage.getItem(STORAGE_KEYS.PREFERENCES)
+      ]);
+
+      const reminders = remindersData ? JSON.parse(remindersData) : [];
+      let preferences = DEFAULT_PREFERENCES;
+
+      if (preferencesData) {
+        const parsed = JSON.parse(preferencesData);
+        preferences = { ...DEFAULT_PREFERENCES, ...parsed };
+      }
+
+      set({ reminders, preferences, isLoading: false, isInitialized: true });
+    } catch {
+      set({ reminders: [], preferences: DEFAULT_PREFERENCES, isLoading: false, isInitialized: true });
+    }
+  },
+
   loadReminders: async () => {
     try {
       const data = await AsyncStorage.getItem(STORAGE_KEYS.REMINDERS);
       const reminders = data ? JSON.parse(data) : [];
-      set({ reminders, isLoading: false, isInitialized: true });
+      set({ reminders });
     } catch {
-      set({ reminders: [], isLoading: false, isInitialized: true });
+      set({ reminders: [] });
     }
   },
 
