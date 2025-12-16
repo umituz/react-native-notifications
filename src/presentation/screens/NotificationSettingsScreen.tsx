@@ -166,6 +166,7 @@ const SettingRow: React.FC<SettingRowProps> = ({ iconName, title, description, v
         onValueChange={onToggle}
         trackColor={{ false: tokens.colors.surfaceSecondary, true: tokens.colors.primary }}
         thumbColor={tokens.colors.surface}
+        ios_backgroundColor={tokens.colors.surfaceSecondary}
       />
     </View>
   );
