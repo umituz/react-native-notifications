@@ -55,7 +55,7 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
       <AtomicCard style={styles.card}>
         <View style={styles.settingItem}>
           <View style={styles.iconContainer}>
-            <AtomicIcon name={iconName} size="lg" color={iconColor} />
+            <AtomicIcon name={iconName} size="lg" color={iconColor as any} />
           </View>
           <View style={styles.textContainer}>
             <AtomicText type="bodyLarge" style={{ color: tokens.colors.textPrimary }}>
