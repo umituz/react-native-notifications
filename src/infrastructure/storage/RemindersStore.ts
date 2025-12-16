@@ -44,7 +44,7 @@ type RemindersStore = RemindersState & RemindersActions;
 // ============================================================================
 
 const DEFAULT_PREFERENCES: NotificationPreferences = {
-  enabled: false,
+  enabled: true,
   sound: true,
   vibration: true,
   quietHours: {
