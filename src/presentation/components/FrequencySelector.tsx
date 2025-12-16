@@ -40,7 +40,7 @@ export const FrequencySelector: React.FC<FrequencySelectorProps> = ({
             <AtomicIcon
               name={option.iconName}
               size="sm"
-              color={isSelected ? 'surface' : 'textSecondary'}
+              color={isSelected ? 'onSurface' : 'secondary'}
             />
             <AtomicText type="bodySmall" style={isSelected ? styles.selectedText : styles.text}>
               {getLabel(option.labelKey)}

@@ -15,28 +15,28 @@ export const DEFAULT_TIME_PRESETS: TimePreset[] = [
     hour: 8,
     minute: 0,
     labelKey: 'notifications.presets.morning',
-    iconName: 'sunrise',
+    iconName: 'sunny',
   },
   {
     id: 'noon',
     hour: 12,
     minute: 0,
     labelKey: 'notifications.presets.noon',
-    iconName: 'sun',
+    iconName: 'sunny',
   },
   {
     id: 'afternoon',
     hour: 15,
     minute: 0,
     labelKey: 'notifications.presets.afternoon',
-    iconName: 'cloud-sun',
+    iconName: 'partly-sunny',
   },
   {
     id: 'evening',
     hour: 18,
     minute: 0,
     labelKey: 'notifications.presets.evening',
-    iconName: 'sunset',
+    iconName: 'partly-sunny',
   },
   {
     id: 'night',
@@ -71,12 +71,12 @@ export const FREQUENCY_OPTIONS: FrequencyOption[] = [
   {
     id: 'weekly',
     labelKey: 'notifications.frequency.weekly',
-    iconName: 'calendar-days',
+    iconName: 'calendar',
   },
   {
     id: 'monthly',
     labelKey: 'notifications.frequency.monthly',
-    iconName: 'calendar-range',
+    iconName: 'calendar',
   },
 ];
 

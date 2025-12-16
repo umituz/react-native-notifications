@@ -8,6 +8,8 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { View, TouchableOpacity, StyleSheet, Switch } from 'react-native';
 import { AtomicText, AtomicIcon } from '@umituz/react-native-design-system';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
+// @ts-ignore - Optional peer dependency
+import { useNavigation } from '@react-navigation/native';
 import { notificationService } from '../../infrastructure/services/NotificationService';
 
 export interface NotificationsSectionConfig {
@@ -22,14 +24,13 @@ export interface NotificationsSectionConfig {
 export interface NotificationsSectionProps {
   config?: NotificationsSectionConfig;
   containerStyle?: StyleProp<ViewStyle>;
-  onNavigate?: (route: string) => void;
 }
 
 export const NotificationsSection: React.FC<NotificationsSectionProps> = ({
   config,
   containerStyle,
-  onNavigate,
 }) => {
+  const navigation = useNavigation();
   const tokens = useAppDesignTokens();
   const styles = useMemo(() => createStyles(tokens), [tokens]);
 
@@ -54,14 +55,9 @@ export const NotificationsSection: React.FC<NotificationsSectionProps> = ({
   }, [config]);
 
   const handlePress = useCallback(async () => {
-    const hasPermissions = await notificationService.hasPermissions();
-    if (!hasPermissions) {
-      await notificationService.requestPermissions();
-    }
-    if (config?.route && onNavigate) {
-      onNavigate(config.route);
-    }
-  }, [config?.route, onNavigate]);
+    const route = config?.route || 'Notifications';
+    navigation.navigate(route as never);
+  }, [config?.route, navigation]);
 
   const title = config?.title || 'Notifications';
   const description = config?.description || 'Manage notification preferences';
@@ -78,7 +74,7 @@ export const NotificationsSection: React.FC<NotificationsSectionProps> = ({
         activeOpacity={0.7}
       >
         <View style={styles.iconContainer}>
-          <AtomicIcon name="bell" size="md" color="primary" />
+          <AtomicIcon name="notifications" size="md" color="primary" />
         </View>
         <View style={styles.textContainer}>
           <AtomicText type="bodyLarge">{title}</AtomicText>
@@ -93,7 +89,7 @@ export const NotificationsSection: React.FC<NotificationsSectionProps> = ({
             thumbColor={tokens.colors.surface}
           />
         ) : (
-          <AtomicIcon name="chevron-right" size="md" color="textSecondary" />
+          <AtomicIcon name="chevron-forward" size="md" color="secondary" />
         )}
       </TouchableOpacity>
     </View>

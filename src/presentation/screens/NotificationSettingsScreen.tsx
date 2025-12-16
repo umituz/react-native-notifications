@@ -5,7 +5,8 @@
 
 import React, { useEffect, useMemo, useCallback } from 'react';
 import { View, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
-import { AtomicText, AtomicIcon, AtomicSwitch, AtomicCard, ScreenLayout } from '@umituz/react-native-design-system';
+import { AtomicText, AtomicIcon, AtomicCard, ScreenLayout } from '@umituz/react-native-design-system';
+import { Switch } from 'react-native';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import { QuietHoursCard } from '../components/QuietHoursCard';
 import { useRemindersStore, useNotificationPreferences, useQuietHours, useReminders } from '../../infrastructure/storage/RemindersStore';
@@ -77,7 +78,7 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <AtomicCard style={styles.card}>
           <SettingRow
-            iconName="bell"
+            iconName="notifications"
             title={translations.masterToggleTitle}
             description={translations.masterToggleDescription}
             value={preferences.enabled}
@@ -90,7 +91,7 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
           <>
             <AtomicCard style={styles.card}>
               <SettingRow
-                iconName="volume-2"
+                iconName="volume-high"
                 title={translations.soundTitle}
                 description={translations.soundDescription}
                 value={preferences.sound}
@@ -99,7 +100,7 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
               />
               <View style={styles.divider} />
               <SettingRow
-                iconName="smartphone"
+                iconName="phone-portrait"
                 title={translations.vibrationTitle}
                 description={translations.vibrationDescription}
                 value={preferences.vibration}
@@ -111,7 +112,7 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
             <AtomicCard style={styles.card}>
               <TouchableOpacity style={styles.navRow} onPress={onRemindersPress} activeOpacity={0.7}>
                 <View style={styles.iconContainer}>
-                  <AtomicIcon name="clock" size="md" color="primary" />
+                  <AtomicIcon name="time" size="md" color="primary" />
                 </View>
                 <View style={styles.textContainer}>
                   <AtomicText type="bodyLarge">{translations.remindersTitle}</AtomicText>
@@ -122,7 +123,7 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
                     <AtomicText type="bodySmall" style={styles.badgeText}>{reminders.length}</AtomicText>
                   </View>
                 )}
-                <AtomicIcon name="chevron-right" size="md" color="textSecondary" />
+                <AtomicIcon name="chevron-forward" size="md" color="secondary" />
               </TouchableOpacity>
             </AtomicCard>
 
@@ -160,7 +161,12 @@ const SettingRow: React.FC<SettingRowProps> = ({ iconName, title, description, v
         <AtomicText type="bodyLarge">{title}</AtomicText>
         <AtomicText type="bodySmall" style={styles.description}>{description}</AtomicText>
       </View>
-      <AtomicSwitch value={value} onValueChange={onToggle} />
+      <Switch
+        value={value}
+        onValueChange={onToggle}
+        trackColor={{ false: tokens.colors.surfaceSecondary, true: tokens.colors.primary }}
+        thumbColor={tokens.colors.surface}
+      />
     </View>
   );
 };

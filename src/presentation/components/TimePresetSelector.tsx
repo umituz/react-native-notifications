@@ -51,7 +51,7 @@ export const TimePresetSelector: React.FC<TimePresetSelectorProps> = ({
             <AtomicIcon
               name={preset.iconName}
               size="md"
-              color={isSelected ? 'surface' : 'textSecondary'}
+              color={isSelected ? 'onSurface' : 'secondary'}
             />
             <AtomicText type="bodySmall" style={isSelected ? styles.selectedText : styles.text}>
               {getPresetLabel(preset.labelKey)}
@@ -68,7 +68,7 @@ export const TimePresetSelector: React.FC<TimePresetSelectorProps> = ({
         onPress={onSelectCustom}
         activeOpacity={0.7}
       >
-        <AtomicIcon name="clock" size="md" color={isCustomSelected ? 'surface' : 'textSecondary'} />
+        <AtomicIcon name="time" size="md" color={isCustomSelected ? 'onSurface' : 'secondary'} />
         <AtomicText type="bodySmall" style={isCustomSelected ? styles.selectedText : styles.text}>
           {customLabel}
         </AtomicText>

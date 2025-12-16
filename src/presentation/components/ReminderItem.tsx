@@ -5,7 +5,8 @@
 
 import React, { useMemo } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { AtomicText, AtomicIcon, AtomicSwitch } from '@umituz/react-native-design-system';
+import { AtomicText, AtomicIcon } from '@umituz/react-native-design-system';
+import { Switch } from 'react-native';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import type { Reminder, ReminderFrequency } from '../../infrastructure/services/types';
 
@@ -32,10 +33,10 @@ const getFrequencyIcon = (frequency: ReminderFrequency): string => {
   const icons: Record<ReminderFrequency, string> = {
     once: 'calendar',
     daily: 'repeat',
-    weekly: 'calendar-days',
-    monthly: 'calendar-range',
+    weekly: 'calendar',
+    monthly: 'calendar',
   };
-  return icons[frequency] || 'bell';
+  return icons[frequency] || 'notifications';
 };
 
 export const ReminderItem: React.FC<ReminderItemProps> = ({
@@ -65,7 +66,7 @@ export const ReminderItem: React.FC<ReminderItemProps> = ({
           <AtomicIcon
             name={getFrequencyIcon(reminder.frequency)}
             size="md"
-            color={reminder.enabled ? 'primary' : 'textSecondary'}
+            color={reminder.enabled ? 'primary' : 'secondary'}
           />
         </View>
         <View style={styles.textContainer}>
@@ -85,9 +86,14 @@ export const ReminderItem: React.FC<ReminderItemProps> = ({
 
       <View style={styles.actions}>
         <TouchableOpacity style={styles.deleteButton} onPress={() => onDelete(reminder.id)}>
-          <AtomicIcon name="trash-2" size="sm" color="error" />
+          <AtomicIcon name="trash" size="sm" color="error" />
         </TouchableOpacity>
-        <AtomicSwitch value={reminder.enabled} onValueChange={() => onToggle(reminder.id)} />
+        <Switch
+          value={reminder.enabled}
+          onValueChange={() => onToggle(reminder.id)}
+          trackColor={{ false: tokens.colors.surfaceSecondary, true: tokens.colors.primary }}
+          thumbColor={tokens.colors.surface}
+        />
       </View>
     </View>
   );

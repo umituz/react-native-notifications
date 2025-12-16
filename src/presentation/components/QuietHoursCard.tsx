@@ -5,7 +5,8 @@
 
 import React, { useMemo } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { AtomicText, AtomicIcon, AtomicSwitch, AtomicCard } from '@umituz/react-native-design-system';
+import { AtomicText, AtomicIcon, AtomicCard } from '@umituz/react-native-design-system';
+import { Switch } from 'react-native';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import type { QuietHoursConfig, QuietHoursTranslations } from '../../infrastructure/services/types';
 
@@ -41,7 +42,12 @@ export const QuietHoursCard: React.FC<QuietHoursCardProps> = ({
           <AtomicText type="bodyLarge">{translations.title}</AtomicText>
           <AtomicText type="bodySmall" style={styles.description}>{translations.description}</AtomicText>
         </View>
-        <AtomicSwitch value={config.enabled} onValueChange={onToggle} />
+        <Switch
+          value={config.enabled}
+          onValueChange={onToggle}
+          trackColor={{ false: tokens.colors.surfaceSecondary, true: tokens.colors.primary }}
+          thumbColor={tokens.colors.surface}
+        />
       </View>
 
       {config.enabled && (
@@ -54,7 +60,7 @@ export const QuietHoursCard: React.FC<QuietHoursCardProps> = ({
           </TouchableOpacity>
 
           <View style={styles.timeSeparator}>
-            <AtomicIcon name="arrow-right" size="sm" color="textSecondary" />
+            <AtomicIcon name="arrow-forward" size="sm" color="secondary" />
           </View>
 
           <TouchableOpacity style={styles.timeButton} onPress={onEndTimePress} activeOpacity={0.7}>

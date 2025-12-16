@@ -7,10 +7,11 @@
 
 import React, { useMemo } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
-import { AtomicIcon, AtomicSwitch, AtomicCard, AtomicText, ScreenLayout, STATIC_TOKENS } from '@umituz/react-native-design-system';
+import { AtomicIcon, AtomicCard, AtomicText, ScreenLayout, STATIC_TOKENS } from '@umituz/react-native-design-system';
+import { Switch } from 'react-native';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import { useNotificationSettings } from '../../infrastructure/hooks/useNotificationSettings';
-import type { DesignTokens } from '@umituz/react-native-design-system';
+import type { DesignTokens, IconColor } from '@umituz/react-native-design-system';
 
 export interface NotificationsScreenProps {
   translations: {
@@ -19,13 +20,13 @@ export interface NotificationsScreenProps {
     loadingText?: string;
   };
   iconName?: string;
-  iconColor?: string;
+  iconColor?: IconColor;
   testID?: string;
 }
 
 export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
   translations,
-  iconName = 'bell',
+  iconName = 'notifications',
   iconColor = 'primary',
   testID = 'notifications-screen',
 }) => {
@@ -64,9 +65,11 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
               {translations.description}
             </AtomicText>
           </View>
-          <AtomicSwitch
+          <Switch
             value={notificationsEnabled}
             onValueChange={setNotificationsEnabled}
+            trackColor={{ false: tokens.colors.surfaceSecondary, true: tokens.colors.primary }}
+            thumbColor={tokens.colors.surface}
             testID="notifications-toggle"
           />
         </View>

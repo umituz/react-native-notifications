@@ -65,7 +65,7 @@ export const ReminderListScreen: React.FC<ReminderListScreenProps> = ({
   const renderEmpty = useCallback(() => (
     <View style={styles.emptyContainer}>
       <View style={styles.emptyIconContainer}>
-        <AtomicIcon name="bell-off" size="xl" color="textSecondary" />
+        <AtomicIcon name="notifications-off" size="xl" color="secondary" />
       </View>
       <AtomicText type="bodyLarge" style={styles.emptyTitle}>{translations.emptyTitle}</AtomicText>
       <AtomicText type="bodySmall" style={styles.emptyDescription}>{translations.emptyDescription}</AtomicText>
@@ -97,7 +97,7 @@ export const ReminderListScreen: React.FC<ReminderListScreenProps> = ({
 
       {canAddMore && (
         <TouchableOpacity style={styles.fab} onPress={onAddPress} activeOpacity={0.8}>
-          <AtomicIcon name="plus" size="md" color="surface" />
+          <AtomicIcon name="add" size="md" color="onSurface" />
           <AtomicText type="bodyMedium" style={styles.fabText}>{translations.addButtonLabel}</AtomicText>
         </TouchableOpacity>
       )}
