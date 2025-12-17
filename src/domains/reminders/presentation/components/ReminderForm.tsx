@@ -12,7 +12,7 @@ import { FrequencySelector } from './FrequencySelector';
 import { WeekdaySelector } from './WeekdaySelector';
 import { FormButton } from './FormButton';
 import { DEFAULT_TIME_PRESETS, FREQUENCY_OPTIONS } from '../../infrastructure/config/reminderPresets';
-import type { Reminder, ReminderFrequency, CreateReminderInput, TimePreset } from '../../infrastructure/services/types';
+import type { Reminder, ReminderFrequency, CreateReminderInput, TimePreset } from '../../../../infrastructure/services/types';
 
 export interface ReminderFormTranslations {
   titleLabel: string;

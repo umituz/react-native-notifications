@@ -10,7 +10,7 @@ import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import { QuietHoursCard } from '../components/QuietHoursCard';
 import { SettingRow } from '../components/SettingRow';
 import { useNotificationSettingsUI } from '../hooks/useNotificationSettingsUI';
-import { useReminders } from '../../infrastructure/storage/RemindersStore';
+import { useReminders } from '../../domains/reminders/infrastructure/storage/RemindersStore';
 import type { NotificationSettingsTranslations, QuietHoursTranslations } from '../../infrastructure/services/types';
 
 export interface NotificationSettingsScreenProps {

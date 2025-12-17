@@ -5,7 +5,7 @@
 
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Reminder, QuietHoursConfig, NotificationPreferences } from '../services/types';
+import type { Reminder, QuietHoursConfig, NotificationPreferences } from '../../../../infrastructure/services/types';
 
 const STORAGE_KEYS = {
   REMINDERS: '@notifications:reminders',

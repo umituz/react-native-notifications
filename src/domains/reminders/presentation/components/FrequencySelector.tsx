@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { AtomicText, AtomicIcon } from '@umituz/react-native-design-system';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
-import type { ReminderFrequency } from '../../infrastructure/services/types';
+import type { ReminderFrequency } from '../../../../infrastructure/services/types';
 import type { FrequencyOption } from '../../infrastructure/config/reminderPresets';
 
 export interface FrequencySelectorProps {

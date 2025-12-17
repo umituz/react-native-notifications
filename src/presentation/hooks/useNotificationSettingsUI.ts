@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useCallback } from 'react';
-import { useRemindersStore, useNotificationPreferences, useQuietHours } from '../../infrastructure/storage/RemindersStore';
+import { useNotificationPreferences, useQuietHours, useRemindersStore } from '../../domains/reminders/infrastructure/storage/RemindersStore';
 import { notificationService } from '../../infrastructure/services/NotificationService';
 
 export const useNotificationSettingsUI = () => {

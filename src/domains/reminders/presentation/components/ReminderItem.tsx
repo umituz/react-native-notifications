@@ -8,7 +8,7 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { AtomicText, AtomicIcon } from '@umituz/react-native-design-system';
 import { Switch } from 'react-native';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
-import type { Reminder, ReminderFrequency } from '../../infrastructure/services/types';
+import type { Reminder, ReminderFrequency } from '../../../../infrastructure/services/types';
 
 export interface ReminderItemTranslations {
   frequencyOnce: string;

@@ -3,7 +3,7 @@
  * Default time presets and frequency options for reminders
  */
 
-import type { TimePreset, ReminderFrequency } from '../services/types';
+import type { TimePreset, ReminderFrequency } from '../../../../infrastructure/services/types';
 
 // ============================================================================
 // DEFAULT TIME PRESETS

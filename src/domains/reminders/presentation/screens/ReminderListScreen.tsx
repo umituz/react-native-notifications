@@ -10,7 +10,7 @@ import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import { ReminderItem } from '../components/ReminderItem';
 import { useRemindersStore, useReminders, useRemindersLoading } from '../../infrastructure/storage/RemindersStore';
 import { useReminderActions } from '../../infrastructure/hooks/useReminderActions';
-import type { Reminder, ReminderTranslations } from '../../infrastructure/services/types';
+import type { Reminder, ReminderTranslations } from '../../../../infrastructure/services/types';
 
 export interface ReminderListScreenProps {
   translations: ReminderTranslations;

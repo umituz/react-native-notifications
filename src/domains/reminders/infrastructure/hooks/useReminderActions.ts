@@ -5,13 +5,8 @@
 
 import { useCallback } from 'react';
 import { useRemindersStore } from '../storage/RemindersStore';
-import { NotificationScheduler } from '../services/NotificationScheduler';
-import type {
-  Reminder,
-  CreateReminderInput,
-  UpdateReminderInput,
-  NotificationTrigger,
-} from '../services/types';
+import { NotificationScheduler } from '../../../../infrastructure/services/NotificationScheduler';
+import type { Reminder, CreateReminderInput, UpdateReminderInput, NotificationTrigger } from '../../../../infrastructure/services/types';
 
 const scheduler = new NotificationScheduler();
 
