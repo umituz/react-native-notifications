@@ -76,7 +76,7 @@ export const ReminderListScreen: React.FC<ReminderListScreenProps> = ({
 
   if (isLoading) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={[styles.loadingContainer, { backgroundColor: tokens.colors.surface }]}>
         <ActivityIndicator size="large" color={tokens.colors.primary} />
       </View>
     );
@@ -89,7 +89,7 @@ export const ReminderListScreen: React.FC<ReminderListScreenProps> = ({
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         ListEmptyComponent={renderEmpty}
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={[styles.listContent, { backgroundColor: tokens.colors.surface }]}
         showsVerticalScrollIndicator={false}
       />
 
