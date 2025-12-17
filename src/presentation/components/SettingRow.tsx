@@ -3,7 +3,7 @@
  * Reusable toggle row for settings
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { View, StyleSheet, Switch } from 'react-native';
 import { AtomicText, AtomicIcon } from '@umituz/react-native-design-system';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
@@ -14,6 +14,7 @@ export interface SettingRowProps {
     description: string;
     value: boolean;
     onToggle: (value: boolean) => void;
+    onHapticFeedback?: () => void;
 }
 
 export const SettingRow: React.FC<SettingRowProps> = ({
@@ -21,10 +22,16 @@ export const SettingRow: React.FC<SettingRowProps> = ({
     title,
     description,
     value,
-    onToggle
+    onToggle,
+    onHapticFeedback,
 }) => {
     const tokens = useAppDesignTokens();
     const styles = useMemo(() => createStyles(tokens), [tokens]);
+
+    const handleToggle = useCallback((newValue: boolean) => {
+        onHapticFeedback?.();
+        onToggle(newValue);
+    }, [onToggle, onHapticFeedback]);
 
     return (
         <View style={styles.container}>
@@ -41,7 +48,7 @@ export const SettingRow: React.FC<SettingRowProps> = ({
             </View>
             <Switch
                 value={value}
-                onValueChange={onToggle}
+                onValueChange={handleToggle}
                 trackColor={{
                     false: tokens.colors.surfaceSecondary,
                     true: tokens.colors.primary

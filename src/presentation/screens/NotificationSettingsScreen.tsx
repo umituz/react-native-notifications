@@ -19,6 +19,7 @@ export interface NotificationSettingsScreenProps {
   onRemindersPress: () => void;
   onStartTimePress: () => void;
   onEndTimePress: () => void;
+  onHapticFeedback?: () => void;
 }
 
 export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProps> = ({
@@ -27,6 +28,7 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
   onRemindersPress,
   onStartTimePress,
   onEndTimePress,
+  onHapticFeedback,
 }) => {
   const tokens = useAppDesignTokens();
   const styles = useMemo(() => createStyles(tokens), [tokens]);
@@ -62,6 +64,7 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
             description={translations.masterToggleDescription}
             value={preferences.enabled}
             onToggle={handleMasterToggle}
+            onHapticFeedback={onHapticFeedback}
           />
         </AtomicCard>
 
@@ -74,6 +77,7 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
                 description={translations.soundDescription}
                 value={preferences.sound}
                 onToggle={handleSoundToggle}
+                onHapticFeedback={onHapticFeedback}
               />
               <View style={styles.divider} />
               <SettingRow
@@ -82,6 +86,7 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
                 description={translations.vibrationDescription}
                 value={preferences.vibration}
                 onToggle={handleVibrationToggle}
+                onHapticFeedback={onHapticFeedback}
               />
             </AtomicCard>
 
