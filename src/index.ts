@@ -73,7 +73,7 @@ export {
 
 export { useNotificationSettings } from './infrastructure/hooks/useNotificationSettings';
 export { useReminderActions } from './domains/reminders/infrastructure/hooks/useReminderActions';
-export { useQuietHoursActions } from './infrastructure/hooks/useQuietHoursActions';
+export { useQuietHoursActions } from './domains/quietHours/infrastructure/hooks/useQuietHoursActions';
 export { useNotificationSettingsUI } from './presentation/hooks/useNotificationSettingsUI';
 
 // ============================================================================
@@ -114,8 +114,8 @@ export type { ReminderFormProps, ReminderFormTranslations } from './domains/remi
 export { FormButton } from './domains/reminders/presentation/components/FormButton';
 export type { FormButtonProps } from './domains/reminders/presentation/components/FormButton';
 
-export { QuietHoursCard } from './presentation/components/QuietHoursCard';
-export type { QuietHoursCardProps } from './presentation/components/QuietHoursCard';
+export { QuietHoursCard } from './domains/quietHours/presentation/components/QuietHoursCard';
+export type { QuietHoursCardProps } from './domains/quietHours/presentation/components/QuietHoursCard';
 
 export { SettingRow } from './presentation/components/SettingRow';
 export type { SettingRowProps } from './presentation/components/SettingRow';

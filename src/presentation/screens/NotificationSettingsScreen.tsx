@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 import { View, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { AtomicText, AtomicIcon, AtomicCard, ScreenLayout } from '@umituz/react-native-design-system';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
-import { QuietHoursCard } from '../components/QuietHoursCard';
+import { QuietHoursCard } from '../../domains/quietHours/presentation/components/QuietHoursCard';
 import { SettingRow } from '../components/SettingRow';
 import { useNotificationSettingsUI } from '../hooks/useNotificationSettingsUI';
 import { useReminders } from '../../domains/reminders/infrastructure/storage/RemindersStore';
