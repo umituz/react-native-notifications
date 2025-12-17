@@ -5,7 +5,7 @@
 
 import React, { useEffect, useMemo, useCallback } from 'react';
 import { View, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { AtomicText, AtomicIcon, ScreenLayout } from '@umituz/react-native-design-system';
+import { AtomicText, AtomicIcon } from '@umituz/react-native-design-system';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import { ReminderItem } from '../components/ReminderItem';
 import { useRemindersStore, useReminders, useRemindersLoading } from '../../infrastructure/storage/RemindersStore';
@@ -76,16 +76,14 @@ export const ReminderListScreen: React.FC<ReminderListScreenProps> = ({
 
   if (isLoading) {
     return (
-      <ScreenLayout>
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={tokens.colors.primary} />
-        </View>
-      </ScreenLayout>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={tokens.colors.primary} />
+      </View>
     );
   }
 
   return (
-    <ScreenLayout hideScrollIndicator>
+    <View style={{ flex: 1 }}>
       <FlatList
         data={reminders}
         renderItem={renderItem}
@@ -101,7 +99,7 @@ export const ReminderListScreen: React.FC<ReminderListScreenProps> = ({
           <AtomicText type="bodyMedium" style={styles.fabText}>{translations.addButtonLabel}</AtomicText>
         </TouchableOpacity>
       )}
-    </ScreenLayout>
+    </View>
   );
 };
 
