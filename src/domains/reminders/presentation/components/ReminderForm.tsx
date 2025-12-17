@@ -150,7 +150,11 @@ export const ReminderForm: React.FC<ReminderFormProps> = ({
 
 const createStyles = (tokens: ReturnType<typeof useAppDesignTokens>) =>
   StyleSheet.create({
-    container: { flex: 1, padding: 16 },
+    container: {
+      flex: 1,
+      padding: 16,
+      backgroundColor: tokens.colors.surface,
+    },
     section: { marginBottom: 20 },
     label: { color: tokens.colors.textPrimary, marginBottom: 8 },
     input: {
