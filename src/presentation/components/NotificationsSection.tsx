@@ -61,7 +61,7 @@ export const NotificationsSection: React.FC<NotificationsSectionProps> = ({
 
   const title = config?.title || 'Notifications';
   const description = config?.description || 'Manage notification preferences';
-  const showToggle = config?.showToggle ?? true;
+  const showToggle = config?.showToggle ?? false;
 
   return (
     <View style={[styles.container, containerStyle]}>
