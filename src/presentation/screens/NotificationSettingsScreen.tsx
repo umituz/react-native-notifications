@@ -3,7 +3,7 @@
  * Clean presentation-only screen for notification settings
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { AtomicText, AtomicIcon, AtomicCard, ScreenLayout } from '@umituz/react-native-design-system';
 import { useAppDesignTokens } from '@umituz/react-native-design-system';
@@ -11,28 +11,29 @@ import { QuietHoursCard } from '../../domains/quietHours/presentation/components
 import { SettingRow } from '../components/SettingRow';
 import { useNotificationSettingsUI } from '../hooks/useNotificationSettingsUI';
 import { useReminders } from '../../domains/reminders/infrastructure/storage/RemindersStore';
+import { useQuietHoursActions } from '../../domains/quietHours/infrastructure/hooks/useQuietHoursActions';
 import type { NotificationSettingsTranslations, QuietHoursTranslations } from '../../infrastructure/services/types';
+// @ts-ignore - Optional peer dependency
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+type PickerMode = 'start' | 'end' | null;
 
 export interface NotificationSettingsScreenProps {
   translations: NotificationSettingsTranslations;
   quietHoursTranslations: QuietHoursTranslations;
-  onRemindersPress: () => void;
-  onStartTimePress: () => void;
-  onEndTimePress: () => void;
   onHapticFeedback?: () => void;
 }
 
 export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProps> = ({
   translations,
   quietHoursTranslations,
-  onRemindersPress,
-  onStartTimePress,
-  onEndTimePress,
   onHapticFeedback,
 }) => {
   const tokens = useAppDesignTokens();
   const styles = useMemo(() => createStyles(tokens), [tokens]);
   const reminders = useReminders();
+  const { setStartTime, setEndTime } = useQuietHoursActions();
+  const [pickerMode, setPickerMode] = useState<PickerMode>(null);
 
   const {
     preferences,
@@ -43,6 +44,42 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
     handleVibrationToggle,
     handleQuietHoursToggle,
   } = useNotificationSettingsUI();
+
+  const handleRemindersPress = () => {
+    // Navigate to reminders screen when implemented
+  };
+
+  const handleStartTimePress = () => {
+    setPickerMode('start');
+  };
+
+  const handleEndTimePress = () => {
+    setPickerMode('end');
+  };
+
+  const handleTimeChange = (event: any, selectedDate?: Date) => {
+    if (event.type === 'set' && selectedDate) {
+      const hours = selectedDate.getHours();
+      const minutes = selectedDate.getMinutes();
+
+      if (pickerMode === 'start') {
+        setStartTime(hours, minutes);
+      } else if (pickerMode === 'end') {
+        setEndTime(hours, minutes);
+      }
+    }
+    setPickerMode(null);
+  };
+
+  const getPickerDate = () => {
+    const date = new Date();
+    if (pickerMode === 'start') {
+      date.setHours(quietHours.startHour, quietHours.startMinute);
+    } else if (pickerMode === 'end') {
+      date.setHours(quietHours.endHour, quietHours.endMinute);
+    }
+    return date;
+  };
 
   if (isLoading) {
     return (
@@ -118,12 +155,20 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
               config={quietHours}
               translations={quietHoursTranslations}
               onToggle={handleQuietHoursToggle}
-              onStartTimePress={onStartTimePress}
-              onEndTimePress={onEndTimePress}
+              onStartTimePress={handleStartTimePress}
+              onEndTimePress={handleEndTimePress}
             />
           </>
         )}
       </View>
+      {pickerMode && (
+        <DateTimePicker
+          value={getPickerDate()}
+          mode="time"
+          is24Hour={true}
+          onChange={handleTimeChange}
+        />
+      )}
     </ScreenLayout>
   );
 };
