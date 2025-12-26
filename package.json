@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-notifications",
-  "version": "1.5.0",
+  "version": "1.5.2",
   "description": "Offline-first local notifications system for React Native apps using expo-notifications",
   "main": "./src/index.ts",
   "types": "./src/index.ts",

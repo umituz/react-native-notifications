@@ -128,7 +128,7 @@ export const NotificationSettingsScreen: React.FC<NotificationSettingsScreenProp
             </AtomicCard>
 
             <AtomicCard style={styles.card}>
-              <TouchableOpacity style={styles.navRow} onPress={onRemindersPress} activeOpacity={0.7}>
+              <TouchableOpacity style={styles.navRow} onPress={handleRemindersPress} activeOpacity={0.7}>
                 <View style={styles.iconContainer}>
                   <AtomicIcon name="time" size="md" color="primary" />
                 </View>
