@@ -3,7 +3,7 @@
  * Manages reminder state with AsyncStorage persistence
  */
 
-import { create } from 'zustand';
+import { createStore } from '@umituz/react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { Reminder, QuietHoursConfig, NotificationPreferences } from '../../../../infrastructure/services/types';
 
@@ -37,8 +37,6 @@ interface RemindersActions {
   reset: () => Promise<void>;
 }
 
-type RemindersStore = RemindersState & RemindersActions;
-
 // ============================================================================
 // DEFAULT VALUES
 // ============================================================================
@@ -56,108 +54,115 @@ const DEFAULT_PREFERENCES: NotificationPreferences = {
   },
 };
 
-// ============================================================================
-// STORE IMPLEMENTATION
-// ============================================================================
-
-export const useRemindersStore = create<RemindersStore>((set, get) => ({
+const initialRemindersState: RemindersState = {
   reminders: [],
   preferences: DEFAULT_PREFERENCES,
   isLoading: true,
   isInitialized: false,
+};
 
-  initialize: async () => {
-    try {
-      const [remindersData, preferencesData] = await Promise.all([
-        AsyncStorage.getItem(STORAGE_KEYS.REMINDERS),
-        AsyncStorage.getItem(STORAGE_KEYS.PREFERENCES)
-      ]);
+// ============================================================================
+// STORE IMPLEMENTATION
+// ============================================================================
 
-      const reminders = remindersData ? JSON.parse(remindersData) : [];
-      let preferences = DEFAULT_PREFERENCES;
+export const useRemindersStore = createStore<RemindersState, RemindersActions>({
+  name: 'reminders-store',
+  initialState: initialRemindersState,
+  persist: false, // Manual persistence via AsyncStorage
+  actions: (set, get) => ({
+    initialize: async () => {
+      try {
+        const [remindersData, preferencesData] = await Promise.all([
+          AsyncStorage.getItem(STORAGE_KEYS.REMINDERS),
+          AsyncStorage.getItem(STORAGE_KEYS.PREFERENCES)
+        ]);
 
-      if (preferencesData) {
-        const parsed = JSON.parse(preferencesData);
-        preferences = { ...DEFAULT_PREFERENCES, ...parsed };
+        const reminders = remindersData ? JSON.parse(remindersData) : [];
+        let preferences = DEFAULT_PREFERENCES;
+
+        if (preferencesData) {
+          const parsed = JSON.parse(preferencesData);
+          preferences = { ...DEFAULT_PREFERENCES, ...parsed };
+        }
+
+        set({ reminders, preferences, isLoading: false, isInitialized: true });
+      } catch {
+        set({ reminders: [], preferences: DEFAULT_PREFERENCES, isLoading: false, isInitialized: true });
       }
+    },
 
-      set({ reminders, preferences, isLoading: false, isInitialized: true });
-    } catch {
-      set({ reminders: [], preferences: DEFAULT_PREFERENCES, isLoading: false, isInitialized: true });
-    }
-  },
+    loadReminders: async () => {
+      try {
+        const data = await AsyncStorage.getItem(STORAGE_KEYS.REMINDERS);
+        const reminders = data ? JSON.parse(data) : [];
+        set({ reminders });
+      } catch {
+        set({ reminders: [] });
+      }
+    },
 
-  loadReminders: async () => {
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.REMINDERS);
-      const reminders = data ? JSON.parse(data) : [];
-      set({ reminders });
-    } catch {
-      set({ reminders: [] });
-    }
-  },
+    addReminder: async (reminder: Reminder) => {
+      const { reminders } = get();
+      const updated = [...reminders, reminder];
+      set({ reminders: updated });
+      await AsyncStorage.setItem(STORAGE_KEYS.REMINDERS, JSON.stringify(updated));
+    },
 
-  addReminder: async (reminder: Reminder) => {
-    const { reminders } = get();
-    const updated = [...reminders, reminder];
-    set({ reminders: updated });
-    await AsyncStorage.setItem(STORAGE_KEYS.REMINDERS, JSON.stringify(updated));
-  },
+    updateReminder: async (id: string, updates: Partial<Reminder>) => {
+      const { reminders } = get();
+      const updated = reminders.map(r =>
+        r.id === id ? { ...r, ...updates, updatedAt: new Date().toISOString() } : r
+      );
+      set({ reminders: updated });
+      await AsyncStorage.setItem(STORAGE_KEYS.REMINDERS, JSON.stringify(updated));
+    },
 
-  updateReminder: async (id: string, updates: Partial<Reminder>) => {
-    const { reminders } = get();
-    const updated = reminders.map(r =>
-      r.id === id ? { ...r, ...updates, updatedAt: new Date().toISOString() } : r
-    );
-    set({ reminders: updated });
-    await AsyncStorage.setItem(STORAGE_KEYS.REMINDERS, JSON.stringify(updated));
-  },
+    deleteReminder: async (id: string) => {
+      const { reminders } = get();
+      const updated = reminders.filter(r => r.id !== id);
+      set({ reminders: updated });
+      await AsyncStorage.setItem(STORAGE_KEYS.REMINDERS, JSON.stringify(updated));
+    },
 
-  deleteReminder: async (id: string) => {
-    const { reminders } = get();
-    const updated = reminders.filter(r => r.id !== id);
-    set({ reminders: updated });
-    await AsyncStorage.setItem(STORAGE_KEYS.REMINDERS, JSON.stringify(updated));
-  },
+    toggleReminder: async (id: string) => {
+      const { reminders } = get();
+      const updated = reminders.map(r =>
+        r.id === id ? { ...r, enabled: !r.enabled, updatedAt: new Date().toISOString() } : r
+      );
+      set({ reminders: updated });
+      await AsyncStorage.setItem(STORAGE_KEYS.REMINDERS, JSON.stringify(updated));
+    },
 
-  toggleReminder: async (id: string) => {
-    const { reminders } = get();
-    const updated = reminders.map(r =>
-      r.id === id ? { ...r, enabled: !r.enabled, updatedAt: new Date().toISOString() } : r
-    );
-    set({ reminders: updated });
-    await AsyncStorage.setItem(STORAGE_KEYS.REMINDERS, JSON.stringify(updated));
-  },
+    loadPreferences: async () => {
+      try {
+        const data = await AsyncStorage.getItem(STORAGE_KEYS.PREFERENCES);
+        const preferences = data ? { ...DEFAULT_PREFERENCES, ...JSON.parse(data) } : DEFAULT_PREFERENCES;
+        set({ preferences });
+      } catch {
+        set({ preferences: DEFAULT_PREFERENCES });
+      }
+    },
 
-  loadPreferences: async () => {
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.PREFERENCES);
-      const preferences = data ? { ...DEFAULT_PREFERENCES, ...JSON.parse(data) } : DEFAULT_PREFERENCES;
-      set({ preferences });
-    } catch {
-      set({ preferences: DEFAULT_PREFERENCES });
-    }
-  },
+    updatePreferences: async (updates: Partial<NotificationPreferences>) => {
+      const { preferences } = get();
+      const updated = { ...preferences, ...updates };
+      set({ preferences: updated });
+      await AsyncStorage.setItem(STORAGE_KEYS.PREFERENCES, JSON.stringify(updated));
+    },
 
-  updatePreferences: async (updates: Partial<NotificationPreferences>) => {
-    const { preferences } = get();
-    const updated = { ...preferences, ...updates };
-    set({ preferences: updated });
-    await AsyncStorage.setItem(STORAGE_KEYS.PREFERENCES, JSON.stringify(updated));
-  },
+    updateQuietHours: async (quietHours: QuietHoursConfig) => {
+      const { preferences } = get();
+      const updated = { ...preferences, quietHours };
+      set({ preferences: updated });
+      await AsyncStorage.setItem(STORAGE_KEYS.PREFERENCES, JSON.stringify(updated));
+    },
 
-  updateQuietHours: async (quietHours: QuietHoursConfig) => {
-    const { preferences } = get();
-    const updated = { ...preferences, quietHours };
-    set({ preferences: updated });
-    await AsyncStorage.setItem(STORAGE_KEYS.PREFERENCES, JSON.stringify(updated));
-  },
-
-  reset: async () => {
-    set({ reminders: [], preferences: DEFAULT_PREFERENCES });
-    await AsyncStorage.multiRemove([STORAGE_KEYS.REMINDERS, STORAGE_KEYS.PREFERENCES]);
-  },
-}));
+    reset: async () => {
+      set({ reminders: [], preferences: DEFAULT_PREFERENCES });
+      await AsyncStorage.multiRemove([STORAGE_KEYS.REMINDERS, STORAGE_KEYS.PREFERENCES]);
+    },
+  }),
+});
 
 // ============================================================================
 // SELECTOR HOOKS
